@@ -1,3 +1,7 @@
+<?php
+include 'headerAdmin.php';
+include 'dataconnect.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,136 +9,30 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <mata name="description" content="Manage Articles">
+    <mata name="author" content="Vasutron">
+    </mata>
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
+    <link rel="stylesheet" href="css_managearticles.css">
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
 
     <title>Manage Articles</title>
 
     <script>
     $(document).ready(function() {
-        $('#repair-requests-table').DataTable();
+        $('#repair-requests-table').dataTable(); // เปลี่ยนเป็น .dataTable() แทน .DataTable()
     });
     </script>
-    <style>
-    /* Custom styles for this page */
-    
-    .body-container {
-        width: 100%;
-        margin: 0 auto;
-        padding: 20px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-    }
-
-    .body-container {
-        background-color: #ffffff;
-        padding: 30px;
-        border-radius: 5px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        max-width: 800px;
-        margin: 30px auto;
-    }
-
-    
-    .form-container {
-        width: 100%;
-        margin: 0 auto;
-        padding: 20px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-    }
-
-    .form-container {
-        background-color: #ffffff;
-        padding: 30px;
-        border-radius: 5px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        max-width: 800px;
-        margin: 30px auto;
-    }
-
-    #repair-requests-table th,
-    #repair-requests-table td {
-        vertical-align: middle;
-    }
-
-    #searchInput {
-        max-width: 300px;
-        margin-bottom: 1rem;
-    }
-
-    table {
-        font-size: 14px;
-        background-color: #fff;
-        box-shadow: 0 6px 10px -4px rgba(0, 0, 0, 0.1);
-        margin: 0 auto;
-        border-radius: 10px;
-        overflow: hidden;
-    }
-
-    th,
-    td {
-        padding: 12px 15px;
-        text-align: left;
-    }
-
-    thead {
-        background-color: #292b2c;
-        color: #fff;
-        position: sticky;
-        top: 0;
-    }
-
-    tbody tr:nth-child(even) {
-        background-color: #f5f5f5;
-    }
-
-    tbody tr:hover {
-        background-color: #e6f5ff;
-    }
-    </style>
-
-    <header>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light ">
-            <a class="navbar-brand" href="#">Management page for administrators</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse d-flex justify-content-end" id="navbarNav">
-                <ul class="navbar-nav ">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="adminpage.php">Home Admin</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="managemembers.php">Manage members</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="">Manage repair requests</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="device.php">Manage devices</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="managerepairman.php">Manage repairman</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="managearticles.php">Manage articles</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link btn btn-outline-primary" href="adminlogin.php">Logout</a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
-    </header>
 </head>
 
 <body>
     <?php
-        include 'dataconnect.php';
+        include 'manu_headerAD.php';
 
         // Function to add article
         function addArticle($conn) {
@@ -154,17 +52,17 @@
 
         // Function to delete article
         function deleteArticle($conn) {
-            if (isset($_POST['id'])) {
+            if (isset($_POST['delete_article']) && isset($_POST['id'])) {
                 $id = $_POST['id'];
                 $stmt = $conn->prepare("DELETE FROM articles WHERE id = ?");
                 $stmt->bind_param("i", $id);
                 $stmt->execute();
                 $stmt->close();
-                header("Location: managearticles.php");
-                exit();
             }
-        }        
-        
+            header("Location: managearticles.php");
+            exit();
+        }
+
         // Function to update article
         function updateArticle($conn) {
             $id = $_POST['id'];
@@ -194,49 +92,47 @@
         }
     ?>
 
-    <div class=" ">
+    <div class="container-fluid">
         <h1 class="text-center mt-5">Manage Articles</h1>
 
-        <!-- Add Article Form -->
+        <!-- Add Article Form and Modal-->
         <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#add-article-modal">เพิ่มบทความใหม่</button>
-
-        <!-- Add Article Modal -->
-        <div class="modal" tabindex="-1" id="add-article-modal">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Add Article</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
-                            <div class="mb-3">
-                                <label for="title" class="form-label">Title</label>
-                                <input type="text" class="form-control" id="title" name="title" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="content" class="form-label">Content</label>
-                                <textarea class="form-control" id="content" name="content" rows="3" required></textarea>
-                            </div>
-                            <div class="mb-3">
-                                <label for="author" class="form-label">Author</label>
-                                <input type="text" class="form-control" id="author" name="author" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="reference_url" class="form-label">Reference URL</label>
-                                <input type="url" class="form-control" id="reference_url" name="reference_url" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="publication_date" class="form-label">Publication Date</label>
-                                <input type="date" class="form-control" id="publication_date" name="publication_date"
-                                    required>
-                            </div>
-                            <button type="submit" class="btn btn-primary" name="add_article">Add Article</button>
-                        </form>
+            <div class="modal" tabindex="-1" id="add-article-modal">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Add Article</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+                                <div class="mb-3">
+                                    <label for="title" class="form-label">Title</label>
+                                    <input type="text" class="form-control" id="title" name="title" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="content" class="form-label">Content</label>
+                                    <textarea class="form-control" id="content" name="content" rows="3" required></textarea>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="author" class="form-label">Author</label>
+                                    <input type="text" class="form-control" id="author" name="author" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="reference_url" class="form-label">Reference URL</label>
+                                    <input type="url" class="form-control" id="reference_url" name="reference_url" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="publication_date" class="form-label">Publication Date</label>
+                                    <input type="date" class="form-control" id="publication_date" name="publication_date"
+                                        required>
+                                </div>
+                                <button type="submit" class="btn btn-primary" name="add_article">Add Article</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
         <!-- Display, Search, Update and Delete Articles -->
         <h3 class="mt-5">Articles</h3>
@@ -268,8 +164,9 @@
                             echo "<td>" . $row["reference_url"] . "</td>";
                             echo "<td>" . $row["publication_date"] . "</td>";
                             echo "<td>";
-                            echo "<button class='btn btn-warning btn-sm editBtn' data-id='" . $row["id"] . "'>Edit</button> ";
-                            echo "<button class='btn btn-danger btn-sm deleteBtn' data-id='" . $row["id"] . "'>Delete</button>";
+                            echo "<button class='btn btn-warning btn-sm editBtn' data-id='" . $row["id"] . "'>Edit</button> "; 
+                            echo "<br><br>";
+                            echo "<button class='btn btn-danger btn-sm deleteBtn' data-id='" . $row["id"] . "' onclick='deleteArticle(" . $row["id"] . ")'>Delete</button>";
                             echo "</td>";
                             echo "</tr>";
                         }
@@ -278,7 +175,7 @@
             </tbody>
         </table>
 
-        <!-- Update Article Modal -->
+        <!-- Modal Update Article -->
         <div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -324,70 +221,103 @@
             </div>
         </div>
     </div>
+
     <script>
-
-    // Search articles
-    document.getElementById("searchInput").addEventListener("keyup", function() {
-        const filter = this.value.toUpperCase();
-        const rows = document.getElementById("articlesTable").getElementsByTagName("tr");
-        for (let i = 0; i < rows.length; i++) {
-            const columns = rows[i].getElementsByTagName("td");
-            let showRow = false;
-            for (let j = 0; j < columns.length; j++) {
-                if (columns[j].textContent.toUpperCase().includes(filter)) {
-                    showRow = true;
-                    break;
+        // Search articles
+        document.getElementById("searchInput").addEventListener("keyup", function() {
+            const filter = this.value.toUpperCase();
+            const rows = document.getElementById("articlesTable").getElementsByTagName("tr");
+            for (let i = 0; i < rows.length; i++) {
+                const columns = rows[i].getElementsByTagName("td");
+                let showRow = false;
+                for (let j = 0; j < columns.length; j++) {
+                    if (columns[j].textContent.toUpperCase().includes(filter)) {
+                        showRow = true;
+                        break;
+                    }
                 }
+                rows[i].style.display = showRow ? "" : "none";
             }
-            rows[i].style.display = showRow ? "" : "none";
-        }
-    });
+        });
 
-    // Edit and Delete button click event listeners
-    document.querySelectorAll(".editBtn, .deleteBtn").forEach(function(btn) {
+        // Delete article function
+        function deleteArticle(id) {
+            const confirmDelete = confirm("Are you sure you want to delete this article?");
+            if (confirmDelete) {
+                const form = document.createElement("form");
+                form.method = "POST";
+                form.action = "managearticles.php";
+                const inputId = document.createElement("input");
+                inputId.type = "hidden";
+                inputId.name = "id";
+                inputId.value = id;
+                form.appendChild(inputId);
+                const inputSubmit = document.createElement("input");
+                inputSubmit.type = "submit";
+                inputSubmit.name = "delete_article";
+                inputSubmit.value = "Delete Article";
+                form.appendChild(inputSubmit);
+                document.body.appendChild(form);
+                form.submit();
+            }
+        }
+
+        // Edit and Delete button click event listeners
+        document.querySelectorAll(".editBtn, .deleteBtn").forEach(function(btn) {
         btn.addEventListener("click", function() {
             if (this.classList.contains("editBtn")) {
-                // Edit button clicked
-                const id = this.getAttribute("data-id");
-                const row = this.closest("tr");
-                const rowData = row.getElementsByTagName("td");
+            // Edit button clicked
+            const id = this.getAttribute("data-id");
+            const row = this.closest("tr");
+            const rowData = row.getElementsByTagName("td");
 
-                // Fill the update form with the current data
-                document.getElementById("updateId").value = rowData[0].textContent;
-                document.getElementById("updateTitle").value = rowData[1].textContent;
-                document.getElementById("updateContent").value = rowData[2].textContent;
-                document.getElementById("updateAuthor").value = rowData[3].textContent;
-                document.getElementById("updateReferenceUrl").value = rowData[4].textContent;
-                document.getElementById("updatePublicationDate").value = rowData[5].textContent;
+            // Fill the update form with the current data
+            document.getElementById("updateId").value = rowData[0].textContent;
+            document.getElementById("updateTitle").value = rowData[1].textContent;
+            document.getElementById("updateContent").value = rowData[2].textContent;
+            document.getElementById("updateAuthor").value = rowData[3].textContent;
+            document.getElementById("updateReferenceUrl").value = rowData[4].textContent;
+            document.getElementById("updatePublicationDate").value = rowData[5].textContent;
 
-                // Show the update modal
-                const updateModal = new bootstrap.Modal(document.getElementById("updateModal"));
-                updateModal.show();
+            // Show the update modal
+            const updateModal = new bootstrap.Modal(document.getElementById("updateModal"));
+            updateModal.show();
             } else if (this.classList.contains("deleteBtn")) {
                 // Delete button clicked
-                const confirmDelete = confirm("Are you sure you want to delete this article?");
-                if (confirmDelete) {
-                    const id = this.getAttribute("data-id");
-                    const form = document.createElement("form");
-                    form.method = "POST";
-                    form.action = "<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>";
-                    const inputId = document.createElement("input");
-                    inputId.type = "hidden";
-                    inputId.name = "id";
-                    inputId.value = id;
-                    form.appendChild(inputId);
-                    const inputSubmit = document.createElement("input");
-                    inputSubmit.type = "submit";
-                    inputSubmit.name = "delete_article";
-                    inputSubmit.value = "Delete Article";
-                    form.appendChild(inputSubmit);
-                    document.body.appendChild(form);
-                    form.submit();
+                function deleteArticle(id) {
+                    const confirmDelete = confirm("Are you sure you want to delete this article?");
+                    if (confirmDelete) {
+                        const form = document.createElement("form");
+                        form.method = "POST";
+                        form.action = "<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>";
+                        const inputId = document.createElement("input");
+                        inputId.type = "hidden";
+                        inputId.name = "id";
+                        inputId.value = id;
+                        form.appendChild(inputId);
+                        const inputSubmit = document.createElement("input");
+                        inputSubmit.type = "submit";
+                        inputSubmit.name = "delete_article";
+                        inputSubmit.value = "Delete Article";
+                        form.appendChild(inputSubmit);
+                        document.body.appendChild(form);
+                        form.submit();
+                    }
                 }
+
+                // Delete button click event listener
+                document.querySelectorAll(".deleteBtn").forEach(function(btn) {
+                    btn.addEventListener("click", function() {
+                        const id = this.getAttribute("data-id");
+                        deleteArticle(id);
+                    });
+                });
             }
         });
     });
+
     </script>
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
