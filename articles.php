@@ -1,12 +1,19 @@
 <?php
-        include 'header.php';
+// include 'header.php';
+session_start(); // start session
+if(isset($_SESSION['UserID'])){
+//echo "Welcome,ID: " . $_SESSION['UserID'];
+}
+if(!isset($_SESSION['Name'])){
+$_SESSION['Name'] = ""; // กำหนดค่าเริ่มต้น
+}
 
-        include("dataconnect.php"); // นำเข้าไฟล์ dataconnect.php ที่มีการเชื่อมต่อฐานข้อมูล
+include("dataconnect.php"); // นำเข้าไฟล์ dataconnect.php ที่มีการเชื่อมต่อฐานข้อมูล
 
-        $sql = "SELECT * FROM articles ORDER BY publication_date DESC"; // สร้างคำสั่ง SQL สำหรับดึงข้อมูลบทความทั้งหมดจากฐานข้อมูล
-        $result = mysqli_query($conn, $sql); // สั่งให้ PHP ดึงข้อมูลจากฐานข้อมูลด้วยคำสั่ง SQL
+$sql = "SELECT * FROM articles ORDER BY publication_date DESC"; // สร้างคำสั่ง SQL สำหรับดึงข้อมูลบทความทั้งหมดจากฐานข้อมูล
+$result = mysqli_query($conn, $sql); // สั่งให้ PHP ดึงข้อมูลจากฐานข้อมูลด้วยคำสั่ง SQL
 
-    ?>
+?>
 <!DOCTYPE html>
 
 <html lang="en">
@@ -61,42 +68,9 @@
 </head>
 
 <body>
-    <header>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="#">Timely Repairs : Comprehensive watch repair service</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-                    <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="home.php">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="request_repair.php">Request Repair</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="status.php">Check Repair Status</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="repair.html">Repair Process & Warranty</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="articles.php">Articles</a>
-                            <!-- // หน้าบทความ -->
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="contact.html">Contact Us</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link btn btn-outline-primary" href="logout.php">LogOut</a>
-                        </li>
-                    </ul>
-                </div>
-        </nav>
-    </header>
+    <?php
+    include 'manu_header.php'
+    ?>
     <!-- // Path: articles -->
     <div class="container mt-5">
         <div class="row">
@@ -162,37 +136,9 @@
 
 
     <!-- //ส่วนท้ายของหน้า -->
-    <div class="container mt-5">
-        <div class="row">
-            <div class="col-md-4">
-                <div class="container col mt-2 md-0">
-                    <img src="https://images.unsplash.com/photo-1586769852836-bc069f19e1b6?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80"
-                        alt="Repair Center" class="img-fluid">
-                </div>
-                <h2 class="mt-3">Device Information</h2>
-                <p>ค้นหาข้อมูลโดยละเอียดเกี่ยวกับอุปกรณ์ประเภทต่างๆ และสถานะการซ่อมแซม</p>
-                <a class="btn btn-secondary" href="device.html" role="button">Learn More</a>
-            </div>
-            <div class="col-md-4">
-                <div class="container col mt-2 md-0">
-                    <img src="https://img.freepik.com/free-photo/hand-touching-doing-mark-five-yellow-stars-black-background-best-customer-satisfaction-evaluation-good-quality-product-service_616485-33.jpg?w=900&t=st=1674031467~exp=1674032067~hmac=e776ba1740cffdafdd2e6cb675d05df68b89aeb47367a2b857df30f6ed5841ba"
-                        alt="Repair Center" class="img-fluid">
-                </div>
-                <h2 class="mt-3">Repair Process & Warranty</h2>
-                <p>ข้อมูลเติมเกี่ยวกับกระบวนการซ่อม และการรับประกัน</p>
-                <a class="btn btn-secondary" href="repair.html" role="button">Learn More</a>
-            </div>
-            <div class="col-md-4">
-                <div class="container col mt-2 md-0">
-                    <img src="https://img.freepik.com/premium-photo/contact-us-customer-support-concept-wooden-cubes-with-mail-phone-email-icons-table-yellow-background_121826-1517.jpg?w=826"
-                        alt="Repair Center" class="img-fluid">
-                </div>
-                <h2 class="mt-3">Contact Us</h2>
-                <p>หากคุณต้องการความช่วยเหลือ หรือมีคำถามใด ๆ โปรดติดต่อเรา</p>
-                <a class="btn btn-secondary" href="contact.html" role="button">Learn More</a>
-            </div>
-        </div>
-    </div>
+    <?php
+    include 'footer.php'
+    ?>
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"

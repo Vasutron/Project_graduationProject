@@ -1,6 +1,5 @@
 <?php
-session_start(); //start session to save admin id
-
+session_start(); // start session
 require('dataconnect.php'); //connect to database
 
 if(isset($_POST['username']) && isset($_POST['password'])){ // check if the form is submitted
@@ -16,13 +15,14 @@ if(isset($_POST['username']) && isset($_POST['password'])){ // check if the form
     if(mysqli_num_rows($result) == 1){ // if there is a match,
         $row = mysqli_fetch_assoc($result);
         $_SESSION['UserID'] = $row['UserID']; // save admin id in session
-        // $_SESSION['Email'] = $row['email']; // save admin email in session
+        $_SESSION['Name'] = $row['Name']; // save admin name in session
+        $_SESSION['Email'] = $row['Email']; // save admin email in session
         header("Location: home.php"); // redirect to adminpage
     }else{
-        echo "<script>alert('Login Error! Please try again or check your login credentials. เข้าสู่ระบบผิดพลาด!  โปรดลองอีกครั้ง หรือตรวจสอบข้อมูล Username และ Password ก่อนยืนยันการเข้าสู่ระบบของคุณ');</script>";
+        echo "<script>alert('Login Error! Please try again or check your login credentials.');</script>";
          // if not match, display error message
         
-        header( "refresh:0.5;url=index.html" ); // redirect back to login page after 3 seconds
+        header( "refresh:0.5;url=index.php" ); // redirect back to login page after 3 seconds
     }
 }
 ?>

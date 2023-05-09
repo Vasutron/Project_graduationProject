@@ -3,14 +3,15 @@ include 'header.php';
 
 require('dataconnect.php'); //connect to database
     
-    $user_id = $_SESSION['UserID'];
+$user_id = $_SESSION['UserID'];
 
-    $query = "SELECT repair_requests.*, equipment.*, status.* FROM repair_requests 
-                JOIN equipment ON repair_requests.DeviceID = equipment.DeviceID 
-                JOIN status ON repair_requests.StatusID = status.StatusID 
-                WHERE UserID='$user_id'";
+$query = "SELECT repair_requests.*, equipment.*, status.* FROM repair_requests 
+            JOIN equipment ON repair_requests.DeviceID = equipment.DeviceID 
+            JOIN status ON repair_requests.StatusID = status.StatusID 
+            WHERE repair_requests.UserID='$user_id'";
+$result = mysqli_query($conn, $query);
 
-    $result = mysqli_query($conn, $query);
+
     
 ?>
 <!DOCTYPE html>
@@ -76,44 +77,11 @@ require('dataconnect.php'); //connect to database
     }
     </style>
 </head>
-<header>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">Timely Repairs : Comprehensive watch repair service</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="home.php">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="request_repair.php">Request Repair</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="status.php">Check Repair Status</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="repair.html">Repair Process & Warranty</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="articles.php">Articles</a>
-                        <!-- // หน้าบทความ -->
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="contact.html">Contact Us</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link btn btn-outline-primary" href="logout.php">LogOut</a>
-                    </li>
-                </ul>
-            </div>
-    </nav>
-</header>
 
 <body>
+    <?php
+    include 'manu_header.php'
+    ?>
     <main>
         <h1 class="mt-5 mb-4">Repair Requests</h1>
         <table id="repair-requests-table" class="table table-responsive mt-3">

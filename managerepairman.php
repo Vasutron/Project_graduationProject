@@ -136,7 +136,7 @@
                                         <td>".$row['Specialization']."</td>
                                         <td>
                                             <a href='editrepairman.php?id=".$row['RepairmanID']."' class='btn btn-secondary mr-2'>Edit</a>
-                                            <a href='deleterepairman.php?id=".$row['RepairmanID']."' class='btn btn-danger'>Delete</a>
+                                            <a href='deleterepairman.php?id=".$row['RepairmanID']."' class='btn btn-danger' onclick='return confirm(\"Are you sure you want to delete this repairman?\");'>Delete</a>
                                         </td>
                                       </tr>";
                             }
