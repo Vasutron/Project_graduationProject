@@ -1,3 +1,6 @@
+<?php
+include 'headerAdmin.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -28,43 +31,6 @@
         border: 1px solid #ccc;
         border-radius: 5px;
     }
-    </style>
-</head>
-
-<body>
-    <header>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light ">
-            <a class="navbar-brand" href="#">Management page for administrators</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse d-flex justify-content-end" id="navbarNav">
-                <ul class="navbar-nav ">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="adminpage.php">Home Admin</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="managemembers.php">Manage members</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="">Manage repair requests</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="device.php">Manage devices</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="managerepairman.php">Manage repairman</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link btn btn-outline-primary" href="adminlogin.php">Logout</a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
-    </header>
-
-    <style>
     table {
         font-size: 14px;
         background-color: #fff;
@@ -95,10 +61,15 @@
         background-color: #e6f5ff;
     }
     </style>
+</head>
 
+<body>
+    <?php
+    include 'manu_headerAD.php'
+    ?>
     <main>
-
         <div class=" ">
+            <br>
             <h1 class="mb-4">Manage repair requests</h1>
             <div class="row mb-3">
                 <div class="col-md-6">
@@ -178,7 +149,7 @@
                             <td><?php echo $pending_requests; ?></td>
                             <td><?php echo $confirmed_requests; ?></td>
                             <td><?php echo $canceled_requests; ?></td>
-                            <td><?php echo $total_price; ?> บาท</td>
+                            <td><?php echo number_format($total_price, 2); ?> บาท</td>
                         </tr>
                     </tbody>
                 </table>

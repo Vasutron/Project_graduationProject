@@ -27,6 +27,7 @@ $result = mysqli_query($conn, $query);
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
+    <link rel="stylesheet" href="style.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
@@ -82,62 +83,65 @@ $result = mysqli_query($conn, $query);
     <?php
     include 'manu_header.php'
     ?>
+    
     <main>
-        <h1 class="mt-5 mb-4">Repair Requests</h1>
-        <table id="repair-requests-table" class="table table-responsive mt-3">
-            <thead>
-                <tr>
-                    <th>Request Code</th>
-                    <th>Delivery Date</th>
-                    <th>Estimated Repair Date</th>
-                    <th>Problem Details</th>
-                    <th>Device ID</th>
-                    <th>Device Name</th>
-                    <th>Device Type</th>
-                    <th>Model</th>
-                    <th>SNumber</th>
-                    <th>Manufacturer</th>
-                    <th>Status</th>
-                    <th>Completion Date</th>
-                    <th>Estimated Price</th>
-                    <th>Confirmation Date</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php while ($row = mysqli_fetch_assoc($result)): ?>
-                <tr>
-                    <td><?= $row['RequestCode'] ?></td>
-                    <td><?= $row['DeliveryDate'] ?></td>
-                    <td><?= $row['EstimatedRepairDate'] ?></td>
-                    <td><?= $row['ProblemDetails'] ?></td>
-                    <td><?= $row['DeviceID'] ?></td>
-                    <td><?= $row['DeviceName'] ?></td>
-                    <td><?= $row['DeviceType'] ?></td>
-                    <td><?= $row['DeviceModel'] ?></td>
-                    <td><?= $row['SerialNumber'] ?></td>
-                    <td><?= $row['Manufacturer'] ?></td>
-                    <td><?= $row['StatusName'] ?></td>
-                    <td><?= $row['CompletionDate'] ?></td>
-                    <td><?= $row['EstimatedPrice'] ?></td>
-                    <td><?= $row['ConfirmationDate'] ?></td>
-                    <td>
-                        <?php
-                        if ($row['ConfirmationStatus'] == 'Not Confirmed') { //if confirmation status is not confirmed
-                            echo '<button class="btn btn-secondary disabled">Not Confirmed</button>';
-                        } elseif ($row['ConfirmationStatus'] == 'Confirmed') { //if confirmation status is confirmed
-                            echo '<button class="btn btn-success disabled">Confirmed</button>';
-                            echo '<a href="print_request.php?request_code='.$row['RequestCode'].'" class="btn btn-secondary">Print Request</a>';
-                        } else {
-                            echo '<a href="confirm_repair.php?id=' . $row['RequestCode'] . '" class="btn btn-primary">Confirm</a>';
-                            echo '<a href="cancel_repair.php?id=' . $row['RequestCode'] . '" class="btn btn-danger">Cancel</a>';
-                        }
-                    ?>
-                    </td>
-                </tr>
-                <?php endwhile; ?>
-            </tbody>
-        </table>
+        <div class="container-fluid">
+            <h1 class="mt-5 mb-4">Repair Requests</h1>
+            <table id="repair-requests-table" class="table table-responsive mt-3">
+                <thead>
+                    <tr>
+                        <th>Request Code</th>
+                        <th>Delivery Date</th>
+                        <th>Estimated Repair Date</th>
+                        <th>Problem Details</th>
+                        <th>Device ID</th>
+                        <th>Device Name</th>
+                        <th>Device Type</th>
+                        <th>Model</th>
+                        <th>SNumber</th>
+                        <th>Manufacturer</th>
+                        <th>Status</th>
+                        <th>Completion Date</th>
+                        <th>Estimated Price</th>
+                        <th>Confirmation Date</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php while ($row = mysqli_fetch_assoc($result)): ?>
+                    <tr>
+                        <td><?= $row['RequestCode'] ?></td>
+                        <td><?= $row['DeliveryDate'] ?></td>
+                        <td><?= $row['EstimatedRepairDate'] ?></td>
+                        <td><?= $row['ProblemDetails'] ?></td>
+                        <td><?= $row['DeviceID'] ?></td>
+                        <td><?= $row['DeviceName'] ?></td>
+                        <td><?= $row['DeviceType'] ?></td>
+                        <td><?= $row['DeviceModel'] ?></td>
+                        <td><?= $row['SerialNumber'] ?></td>
+                        <td><?= $row['Manufacturer'] ?></td>
+                        <td><?= $row['StatusName'] ?></td>
+                        <td><?= $row['CompletionDate'] ?></td>
+                        <td><?= $row['EstimatedPrice'] ?></td>
+                        <td><?= $row['ConfirmationDate'] ?></td>
+                        <td>
+                            <?php
+                            if ($row['ConfirmationStatus'] == 'Not Confirmed') { //if confirmation status is not confirmed
+                                echo '<button class="btn btn-secondary disabled">Not Confirmed</button>';
+                            } elseif ($row['ConfirmationStatus'] == 'Confirmed') { //if confirmation status is confirmed
+                                echo '<button class="btn btn-success disabled">Confirmed</button>';
+                                echo '<a href="print_request.php?request_code='.$row['RequestCode'].'" class="btn btn-secondary">Print Request</a>';
+                            } else {
+                                echo '<a href="confirm_repair.php?id=' . $row['RequestCode'] . '" class="btn btn-primary">Confirm</a>';
+                                echo '<a href="cancel_repair.php?id=' . $row['RequestCode'] . '" class="btn btn-danger">Cancel</a>';
+                            }
+                        ?>
+                        </td>
+                    </tr>
+                    <?php endwhile; ?>
+                </tbody>
+            </table>
+        </div>
     </main>
     <?php
     mysqli_close($conn); //close database connection

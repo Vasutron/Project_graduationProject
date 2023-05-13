@@ -27,17 +27,7 @@ if(!isset($_SESSION['Email'])){
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
 
-    <style>
-        
-    /* Custom styles for this page */
-    .form-container {
-        width: 85%;
-        margin: 0 auto;
-        padding: 20px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-    }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
@@ -45,8 +35,8 @@ if(!isset($_SESSION['Email'])){
     include 'manu_header.php'
     ?>
 
-    <div class="jumbotron jumbotron-fluid">
-        <div class="container ">
+    <div class="container jumbotron jumbotron-fluid">
+        <div class=" ">
             <br>
             <h1 class="display-4">Timely Repairs : Comprehensive watch repair service</h1>
             <p class="lead">เราพร้อมช่วยเหลือคุณ บริการรับซ่อมนาฬิกาครบวงจร</p>
@@ -62,7 +52,7 @@ if(!isset($_SESSION['Email'])){
             $sql = "SELECT * FROM articles ORDER BY publication_date DESC"; // สร้างคำสั่ง SQL สำหรับดึงข้อมูลบทความทั้งหมดจากฐานข้อมูล
             $result = mysqli_query($conn, $sql); // สั่งให้ PHP ดึงข้อมูลจากฐานข้อมูลด้วยคำสั่ง SQL
         ?>
-        <div class="container mt-5">
+        <div class="mt-5">
             <h2 class="display-4 mt-3 mb-3">บทความน่ารู้</h2>
             <hr class="my-4">
             <div class="row">
@@ -122,7 +112,8 @@ if(!isset($_SESSION['Email'])){
             createPagination();
         });
         </script>
-
+        <br>
+        <hr>
         <?php
         include 'footer.php'
         ?>

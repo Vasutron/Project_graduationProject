@@ -1,3 +1,6 @@
+<?php
+include 'headerAdmin.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -23,40 +26,12 @@
 </head>
 
 <body>
-    <header>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light ">
-            <a class="navbar-brand" href="#">Management page for administrators</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse d-flex justify-content-end" id="navbarNav">
-                <ul class="navbar-nav ">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="adminpage.php">Home Admin</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="managemembers.php">Manage members</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="manage_repairrequests.php">Manage repair requests</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="device.php">Manage devices</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="managerepairman.php">Manage repairman</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link btn btn-outline-primary" href="adminlogin.php">Logout</a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
-    </header>
+    <?php
+    include 'manu_headerAD.php'
+    ?>
 
 
-    <div class="form-container mt-5">
+    <div class="container mt-5">
         <h1>Add Repairman Form</h1>
         <form action="submit_add_repairman.php" method="post">
             <div class="form-group mt-2">
@@ -98,7 +73,7 @@
                     ?>
                 </select>
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-primary mt-3">เพิม่ข้อมูลช่าง</button>
         </form>
     </div>
 </body>

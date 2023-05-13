@@ -12,6 +12,7 @@
     <title>AddDevice</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
     <style>
     /* Custom styles for this page */
     .form-container {
@@ -72,7 +73,7 @@
             </div>
             <div class="form-group mt-2">
                 <label for="SpecializationID">Device Type: ประเภท</label>
-                <select class="form-control" id="SpecializationID" name="DeviceType" required>
+                <select class="form-control" id="SpecializationID" name="DeviceType" required >
                     <option value=""></option>
                     <option value="Analog Watch">Analog Watch</option>
                     <option value="Quartz Watch">Quartz Watch</option>
@@ -105,12 +106,12 @@
                     placeholder="ระบุบริษัทผู้ผลิต" required>
             </div>
             <div class="form-group mt-2">
-                <label for="DateOfPurchase">Date of Purchase:</label>
+                <label for="DateOfPurchase">Date of Purchase: วันที่ซื้อ</label>
                 <input type="date" class="form-control" name="DateOfPurchase" id="DateOfPurchase" required>
             </div>
             <div class="form-group mt-2">
-                <label for="WarrantyExpirationDate">Warranty Expiration Date:</label>
-                <input type="date" class="form-control" name="WarrantyExpirationDate" id="WarrantyExpirationDate"
+                <label for="WarrantyExpirationDate">Warranty Expiration Date: ที่ที่หมดอายุรับประกัน</label>
+                <input type="date" class="form-control" name="WarrantyExpirationDate" id="WarrantyExpirationDate" 
                     required>
             </div>
             <div class="form-group" style="display:none;">
@@ -122,7 +123,7 @@
             <button type="submit" name="submit" class="btn btn-primary mt-3">Add Wacth Data</button>
         </form>
     </div>
-    </div>
+    
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"

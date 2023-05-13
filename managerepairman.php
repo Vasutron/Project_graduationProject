@@ -1,3 +1,6 @@
+<?php
+include 'headerAdmin.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -63,43 +66,16 @@
 </head>
 
 <body>
-    <header>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light ">
-            <a class="navbar-brand" href="#">Management page for administrators</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse d-flex justify-content-end" id="navbarNav">
-                <ul class="navbar-nav ">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="adminpage.php">Home Admin</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="managemembers.php">Manage members</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="manage_repairrequests.php">Manage repair requests</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="device.php">Manage devices</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="managerepairman.php">Manage repairman</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link btn btn-outline-primary" href="adminlogin.php">Logout</a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
-    </header>
+    <?php
+    include 'manu_headerAD.php'
+    ?>
+    <br>
     <main>
         <div class="container">
             <h1>Manage repairman</h1>
             <div class="row">
                 <div class="col-md-12 mt-3">
-                    <a href="addrepairman.php" class="btn btn-primary mb-3">Add new repairman</a>
+                    <a href="addrepairman.php" class="btn btn-primary mb-3">เพิม่ข้อมูลช่าง</a>
                     <!-- <form action="searchrepairman.php" method="GET">
                         <input type="text" name="search" placeholder="Search for specific repairman">
                         <input type="submit" value="Search">
@@ -139,8 +115,8 @@
                                             <a href='deleterepairman.php?id=".$row['RepairmanID']."' class='btn btn-danger' onclick='return confirm(\"Are you sure you want to delete this repairman?\");'>Delete</a>
                                         </td>
                                       </tr>";
-                            }
-                        ?>
+                                }
+                            ?>
                         </tbody>
                     </table>
                 </div>

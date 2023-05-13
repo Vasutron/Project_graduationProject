@@ -1,6 +1,5 @@
 <?php
 session_start(); //start session to save admin id
-
 require('dataconnect.php'); //connect to database
 
 if(isset($_POST['username']) && isset($_POST['password'])){ // check if the form is submitted
@@ -15,8 +14,8 @@ if(isset($_POST['username']) && isset($_POST['password'])){ // check if the form
 
     if(mysqli_num_rows($result) == 1){ // if there is a match,
         $row = mysqli_fetch_assoc($result);
-        $_SESSION['admin_id'] = $row['id']; // save admin id in session
-        $_SESSION['admin_email'] = $row['email']; // save admin email in session
+        $_SESSION['AdminID'] = $row['AdminID']; // save admin id in session
+        $_SESSION['Email'] = $row['Email']; // save admin email in session
         header("Location: adminpage.php"); // redirect to adminpage
     }else{
         echo "Login Error!"; // if not match, display error message

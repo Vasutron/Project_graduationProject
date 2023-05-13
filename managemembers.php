@@ -1,3 +1,6 @@
+<?php
+include 'headerAdmin.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -18,6 +21,7 @@
             $('#repair-requests-table').DataTable();
         });
     </script>
+
     <style>
     /* Custom styles for this page */
     .form-container {
@@ -27,7 +31,6 @@
         border: 1px solid #ccc;
         border-radius: 5px;
     }
-
     table {
         font-size: 14px;
         background-color: #fff;
@@ -36,24 +39,20 @@
         border-radius: 10px;
         overflow: hidden;
     }
-
     th,
     td {
         padding: 12px 15px;
         text-align: left;
     }
-
     thead {
         background-color: #292b2c;
         color: #fff;
         position: sticky;
         top: 0;
     }
-
     tbody tr:nth-child(even) {
         background-color: #f5f5f5;
     }
-
     tbody tr:hover {
         background-color: #e6f5ff;
     }
@@ -61,38 +60,11 @@
 </head>
 
 <body>
-    <header>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light ">
-            <a class="navbar-brand" href="#">Management page for administrators</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse d-flex justify-content-end" id="navbarNav">
-                <ul class="navbar-nav ">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="adminpage.php">Home Admin</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="managemembers.php">Manage members</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="manage_repairrequests.php">Manage repair requests</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="device.php">Manage devices</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="managerepairman.php">Manage repairman</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link btn btn-outline-primary" href="adminlogin.php">Logout</a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
-    </header>
+    <?php
+    include 'manu_headerAD.php'
+    ?>
     <main>
+        <br>
         <div class="container">
             <h1>Manage members</h1>
             <div class="row">

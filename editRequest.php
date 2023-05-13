@@ -1,4 +1,6 @@
 <?php
+    include 'headerAdmin.php';
+
     require('dataconnect.php'); //connect to database
     if(isset($_POST['update'])){
         $RequestCode = $_POST['RequestCode'];
@@ -52,39 +54,12 @@
     <title>Check Repair Status</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-
-    <nav class="navbar navbar-expand-lg navbar-light bg-light ">
-        <a class="navbar-brand" href="#">Management page for administrators</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse d-flex justify-content-end" id="navbarNav">
-            <ul class="navbar-nav ">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="adminpage.php">Home Admin</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="managemembers.php">Manage members</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="">Manage repair requests</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="device.php">Manage devices</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="managerepairman.php">Manage repairman</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link btn btn-outline-primary" href="adminlogin.php">Logout</a>
-                </li>
-            </ul>
-        </div>
-    </nav>
     </header>
 
 <body>
+    <?php
+    include 'manu_headerAD.php'
+    ?>
     <div class="container">
         <h1 class="mt-5 mb-4">Edit Repair Request</h1>
         <?php
@@ -174,11 +149,11 @@
 
             <div class="form-group">
                 <label for="estimatedprice">Estimated Price:</label>
-                <input type="number" class="form-control" id="estimatedprice" name="estimatedprice" min="0.00"
+                <input type="number" class="form-control " id="estimatedprice" name="estimatedprice" min="0.00"
                     value="<?php echo $row['EstimatedPrice']; ?>">
             </div>
 
-            <button type="submit" name="update" class="btn btn-primary">Update</button>
+            <button type="submit" name="update" class="btn btn-primary mt-05">Update</button>
             <a href="manage_repairrequests.php" class="btn btn-secondary">Cancel</a>
         </form>
     </div>
