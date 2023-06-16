@@ -10,7 +10,7 @@
   
 
   $sql = "INSERT INTO users (Name,Surname,Email,Password,Phone,Address)
-            VALUES ('$name', '$surname', '$email', '$password', '$phone', '$address')";
+            VALUES ('$name', '$surname', '$email', '$password', '$phone', '$address')"; // สร้างคำสั่ง SQL สำหรับเพิ่มข้อมูล
 
   $query = mysqli_query($conn,$sql);
 

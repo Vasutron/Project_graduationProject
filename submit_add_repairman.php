@@ -26,9 +26,5 @@ if (mysqli_query($conn, $query2)) {
     
     header( "refresh:0.5;url=addrepairman.php" ); // redirect back to login page after 3 seconds
 }
-
 mysqli_close($conn);
-
-
-
 ?>

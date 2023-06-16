@@ -8,9 +8,10 @@ include 'dataconnect.php';
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Manage Articles">
-    <meta name="author" content="Vasutron">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="ระบบรับแจ้งซ่อมนาิกาบนเว็บไซต์ - Watch Repair Notification System">
+    <meta name="author" content="Vasutron Luanglum - วสุทร เลิงลำ">
+    <meta name="keywords" content="โครงการ, โปรเจ็คจบ, โครงการ ป.ตรี, Project, โครงการ">
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
@@ -27,6 +28,7 @@ include 'dataconnect.php';
         $('#repair-requests-table').dataTable(); // เปลี่ยนเป็น .dataTable() แทน .DataTable()
     });
     </script>
+    
 </head>
 
 <body>
@@ -90,14 +92,14 @@ include 'dataconnect.php';
             } elseif (isset($_POST['update_article'])) {
                 updateArticle($conn);
             } elseif (isset($_POST['delete_article'])) {
-                deleteArticle($conn); // เรียกใช้ฟังก์ชัน deleteArticle
+                deleteArticle($conn);
             }
         }
         
     ?>
-
+    <main>
     <div class="container">
-        <h1 class="text-center mt-5">Manage Articles</h1>
+        <h1 class="text-center mt-5">จัดการบทความ</h1>
 
         <!-- Add Article Form and Modal-->
         <button type="button" class="btn btn-success" data-bs-toggle="modal"
@@ -143,18 +145,19 @@ include 'dataconnect.php';
         <!-- Display, Search, Update and Delete Articles -->
         <!-- <h3 class="mt-5">Articles</h3> -->
         <br>
-        <input class="form-control" id="searchInput" type="text" placeholder="Search.." style="display: none;"/>
+        <input class="form-control" id="searchInput" type="text" placeholder="Search.." style="display: none;" />
         <br />
-        <table id="repair-requests-table" class="table table-striped table-bordered table-hover mt-3">
+        <table id="repair-requests-table" class="table table-striped table-sm">
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Title</th>
-                    <th>Content</th>
-                    <th>Author</th>
-                    <th>Reference URL</th>
-                    <th>Publication Date</th>
-                    <th>Actions</th>
+                    <th>หัวข้อ</th>
+                    <th>เนื้อหา</th>
+                    <th>ผู้แต่ง</th>
+                    <th>URL อ้างอิง</th>
+                    <th>วันที่เผยแพร่</th>
+                    <th>แก้ไข</th>
+                    <th>ลบ</th>
                 </tr>
             </thead>
             <tbody id="articlesTable">
@@ -166,15 +169,17 @@ include 'dataconnect.php';
                         echo "<tr>";
                         echo "<td>" . $row["id"] . "</td>";
                         echo "<td>" . $row["title"] . "</td>";
-                        echo "<td>" . substr($row["content"], 0, 50) . "...</td>";
+                        echo "<td>" . $row["content"] . "</td>";
                         echo "<td>" . $row["author"] . "</td>";
                         echo "<td>" . substr($row["reference_url"], 0, 20) . "...</td>";
                         echo "<td>" . $row["publication_date"] . "</td>";
+                        echo "<td><button class='btn btn-warning btn-sm editBtn' data-id='" . $row["id"] . "'>Edit</button> " . "</td>";
                         echo "<td>";
-                        echo "<button class='btn btn-warning btn-sm editBtn' data-id='" . $row["id"] . "'>Edit</button> ";
-                        echo "<button class='btn btn-danger btn-sm deleteBtn' data-id='" . $row["id"] . "'>Delete</button>";
+                        echo "<form method='POST' action='" . htmlspecialchars($_SERVER['PHP_SELF']) . "'>";
+                        echo "<input type='hidden' name='id' value='" . $row['id'] . "'>";
+                        echo "<button type='submit' name='delete_article' class='btn btn-danger btn-sm'>Delete</button>";
+                        echo "</form>";
                         echo "</td>";
-                        echo "</tr>";
                     }
                 }
                 ?>
@@ -219,13 +224,19 @@ include 'dataconnect.php';
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary" form="updateForm" name="update_article">Update Article</button>
+                        <button type="submit" class="btn btn-primary" form="updateForm" name="update_article">Update
+                            Article</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
+    </main>
+    <br>
+    <?php
+        include_once 'footerEnd.php';
+    ?>
+    
     <script>
     // Search articles
     document.getElementById("searchInput").addEventListener("keyup", function() {
@@ -289,7 +300,6 @@ include 'dataconnect.php';
         });
     });
     </script>
-    
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>

@@ -8,10 +8,13 @@ include 'headerAdmin.php';
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="ระบบรับแจ้งซ่อมนาิกาบนเว็บไซต์ - Watch Repair Notification System">
+    <meta name="author" content="Vasutron Luanglum - วสุทร เลิงลำ">
+    <meta name="keywords" content="โครงการ, โปรเจ็คจบ, โครงการ ป.ตรี, Project, โครงการ">
 
     <title>Manage repair requests</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
@@ -31,6 +34,7 @@ include 'headerAdmin.php';
         border: 1px solid #ccc;
         border-radius: 5px;
     }
+
     table {
         font-size: 14px;
         background-color: #fff;
@@ -65,12 +69,12 @@ include 'headerAdmin.php';
 
 <body>
     <?php
-    include 'manu_headerAD.php'
+    include 'manu_headerAD.php';
     ?>
     <main>
-        <div class=" ">
+        <div class="container-fluid">
             <br>
-            <h1 class="mb-4">Manage repair requests</h1>
+            <h1 class="mb-4 text-center">จัดการใบแจ้งซ่อม</h1>
             <div class="row mb-3">
                 <div class="col-md-6">
                     <form action="search_requests.php" method="GET">
@@ -155,75 +159,148 @@ include 'headerAdmin.php';
                 </table>
             </div>
 
+            <div class="card border-dark">
+                <div class="card-header bg-dark text-white">
+                    <h4>รายการแจ้งซ่อม</h4>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table id="repair-requests-table" class="table table-responsive">
+                            <thead>
+                                <tr>
+                                    <!-- Request Code -->
+                                    <th>เลขที่ที่ใบซ่อม</th>
+                                    <!-- Delivery Date -->
+                                    <th>วันที่แจ้ง</th>
+                                    <!-- Estimated Repair Date -->
+                                    <th>วันที่จะเข้าซ่อม</th>
+                                    <!-- Problem Details -->
+                                    <th>รายละเอียด </th>
+                                    <!-- Device ID -->
+                                    <th>รหัสนาฬิกา</th>
+                                    <!-- Device Name -->
+                                    <th>ยี่ห้อ</th>
+                                    <!-- Device Type -->
+                                    <th>ประเภท</th>
+                                    <!-- Device Model -->
+                                    <th>รุ่น</th>
+                                    <!-- Serial Number -->
+                                    <th>ซีเรียล</th>
+                                    <!-- Manufacturer -->
+                                    <th>ผู้ผลิต</th>
+                                    <!-- User ID -->
+                                    <th>รหัสผู้ใช้</th>
+                                    <!-- Repairman ID -->
+                                    <th>รหัสช่างซ่อม</th>
+                                    <!-- Estimated Price -->
+                                    <th>ราคาประเมิน</th>
+                                    <!-- Confirmation Status -->
+                                    <th>สถานะการยืนยัน</th>
+                                    <!-- Confirmation Date -->
+                                    <th>วันที่ ลค. ยืนยัน</th>
+                                    <!-- Completion Date -->
+                                    <th>วันที่ซ่อมเสร็จ</th>
+                                    <!-- Status -->
+                                    <th>สถานะซ่อม</th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <?php
+                                require('dataconnect.php'); //connect to database
 
-            <table id="repair-requests-table" class="table table-responsive">
-                <thead>
-                    <tr>
-                        <th>Request Code</th>
-                        <th>Delivery Date</th>
-                        <th>Estimated Repair Date</th>
-                        <th>Problem Details</th>
-                        <th>Device ID</th>
-                        <th>Device Name</th>
-                        <th>Device Type</th>
-                        <th>Device Model</th>
-                        <th>Serial Number</th>
-                        <th>Manufacturer</th>
-                        <th>User ID</th>
-                        <th>Status</th>
-                        <th>Repairman ID</th>
-                        <th>Completion Date</th>
-                        <th>Estimated Price</th>
-                        <th>Confirmation Date</th>
-                        <th>Confirmation Status</th>
-                        <th></th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php 
-                        require('dataconnect.php'); //connect to database
-                        $query = "SELECT repair_requests.*, equipment.*, status.* FROM repair_requests 
-                            JOIN equipment ON repair_requests.DeviceID = equipment.DeviceID 
-                            JOIN status ON repair_requests.StatusID = status.StatusID";
-                        $result = mysqli_query($conn, $query);
-                        while($row = mysqli_fetch_assoc($result)){
-                            echo "<tr>";
-                            echo '<td>'.$row['RequestCode'].'</td>';
-                            echo '<td>'.$row['DeliveryDate'].'</td>';
-                            echo '<td>'.$row['EstimatedRepairDate'].'</td>';
-                            echo '<td>'.$row['ProblemDetails'].'</td>';
-                            echo '<td>'.$row['DeviceID'].'</td>';
-                            echo '<td>'.$row['DeviceName'].'</td>';
-                            echo '<td>'.$row['DeviceType'].'</td>';
-                            echo '<td>'.$row['DeviceModel'].'</td>';
-                            echo '<td>'.$row['SerialNumber'].'</td>';
-                            echo '<td>'.$row['Manufacturer'].'</td>';
-                            echo '<td>'.$row['UserID'].'</td>';
-                            echo '<td>'.$row['StatusName'].'</td>';
-                            echo '<td>'.$row['RepairmanID'].'</td>';
-                            echo '<td>'.$row['CompletionDate'].'</td>';
-                            echo '<td>'.$row['EstimatedPrice'].'</td>';
-                            echo '<td>'.$row['ConfirmationDate'].'</td>';
-                            echo '<td>'.$row['ConfirmationStatus'].'</td>';
-                            echo '<td>
-                                    <a href="editRequest.php?id='.$row['RequestCode'].'" class="btn btn-secondary btn-sm">
-                                        <i class="fas fa-edit"></i> Edit
-                                    </a>
-                                </td>';
-                            echo '<td>
-                                    <a href="deleteRequest.php?id='.$row['RequestCode'].'" class="btn btn-danger btn-sm">
-                                        <i class="fas fa-trash-alt"></i> Delete
-                                    </a>
-                                </td>';
-                            echo '</tr>';
-                        }
-                    ?>
-                </tbody>
-            </table>
+                                $query = "SELECT repair_requests.*, equipment.*, status.* FROM repair_requests 
+                                    JOIN equipment ON repair_requests.DeviceID = equipment.DeviceID 
+                                    JOIN status ON repair_requests.StatusID = status.StatusID";
+                                $result = mysqli_query($conn, $query);
+
+                                while ($row = mysqli_fetch_assoc($result)) {
+                                    echo "<tr>";
+                                    echo '<td>' . $row['RequestCode'] . '</td>';
+                                    echo '<td>' . $row['DeliveryDate'] . '</td>';
+                                    echo '<td>' . $row['EstimatedRepairDate'] . '</td>';
+                                    echo '<td>' . $row['ProblemDetails'] . '</td>';
+                                    echo '<td>' . $row['DeviceID'] . '</td>';
+                                    echo '<td>' . $row['DeviceName'] . '</td>';
+                                    echo '<td>' . $row['DeviceType'] . '</td>';
+                                    echo '<td>' . $row['DeviceModel'] . '</td>';
+                                    echo '<td>' . $row['SerialNumber'] . '</td>';
+                                    echo '<td>' . $row['Manufacturer'] . '</td>';
+                                    echo '<td>' . $row['UserID'] . '</td>';
+                                    echo '<td>' . $row['RepairmanID'] . '</td>';
+                                    echo '<td>' . $row['EstimatedPrice'] . '</td>';
+                                    echo '<td>' . $row['ConfirmationStatus'] . '</td>';
+                                    echo '<td>' . $row['ConfirmationDate'] . '</td>';
+                                    echo '<td>' . $row['CompletionDate'] . '</td>';
+
+                                    // Check StatusID and display corresponding button
+                                    if ($row['StatusID'] == 1) {
+                                        echo '<td>
+                                                <button class="btn btn-warning btn-sm" onclick="updateStatus(' . $row['RequestCode'] . ')">รอดำเนินการ</button>
+                                            </td>';
+                                    } elseif ($row['StatusID'] == 2) {
+                                        echo '<td>
+                                                <button class="btn btn-success btn-sm">ปิดงาน</button>
+                                            </td>';
+                                    } else {
+                                        echo '<td>' . $row['StatusID'] . '</td>';
+                                    }
+
+                                    echo '<td>
+                                            <a href="editRequest.php?id=' . $row['RequestCode'] . '" class="btn btn-secondary btn-sm">
+                                                <i class="fas fa-edit"></i> แก้ไข
+                                            </a>
+                                        </td>';
+                                    echo '<td>
+                                            <a href="deleteRequest.php?id=' . $row['RequestCode'] . '" class="btn btn-danger btn-sm">
+                                                <i class="fas fa-trash-alt"></i> ลบ
+                                            </a>
+                                        </td>';
+                                    echo '</tr>';
+                                }
+                                ?>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </main>
+    <br>
+    <?php
+        include_once 'footerEnd.php';
+    ?>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.4.0-alpha1/dist/js/bootstrap.min.js"></script>
 
+    <script>
+        function updateStatus(requestCode) {
+            // Send an AJAX request to update the status in the database
+            $.ajax({
+                url: 'updateStatus.php',
+                method: 'POST',
+                data: {
+                    requestCode: requestCode,
+                    status: 2
+                },
+                success: function(response) {
+                    // If the update is successful, reload the page to see the changes
+                    location.reload();
+                },
+                error: function(xhr, status, error) {
+                    // Handle the error if the update fails
+                    console.error(error);
+                }
+            });
+        }
+    </script>
 </body>
 
 </html>

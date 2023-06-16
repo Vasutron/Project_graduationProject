@@ -17,7 +17,7 @@ if(isset($_POST['username']) && isset($_POST['password'])){ // check if the form
         $_SESSION['UserID'] = $row['UserID']; // save admin id in session
         $_SESSION['Name'] = $row['Name']; // save admin name in session
         $_SESSION['Email'] = $row['Email']; // save admin email in session
-        header("Location: home.php"); // redirect to adminpage
+        header("Location: request_repair.php"); // redirect to adminpage
     }else{
         echo "<script>alert('Login Error! Please try again or check your login credentials.');</script>";
          // if not match, display error message

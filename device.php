@@ -8,6 +8,9 @@ include 'headerAdmin.php';
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="ระบบรับแจ้งซ่อมนาิกาบนเว็บไซต์ - Watch Repair Notification System">
+    <meta name="author" content="Vasutron Luanglum - วสุทร เลิงลำ">
+    <meta name="keywords" content="โครงการ, โปรเจ็คจบ, โครงการ ป.ตรี, Project, โครงการ">
 
     <title>Device Information</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -62,6 +65,14 @@ include 'headerAdmin.php';
     tbody tr:hover {
         background-color: #e6f5ff;
     }
+
+    .zoomable-image {
+        transition: transform 0.3s;
+    }
+
+    .zoomable-image:hover {
+        transform: scale(1.8);
+    }
     </style>
 </head>
 
@@ -69,129 +80,121 @@ include 'headerAdmin.php';
     <?php
     include 'manu_headerAD.php'
     ?>
-    <div class="container-fluid">
-        <h1 class="mt-5 mb-3">Manage Device</h1>
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col">
-                    <!-- <div class="card">
-                        <div class="card-header bg-primary text-white">
-                            <h1 class="text-center mb-0">ค้นหาข้อมูลอุปกรณ์</h1>
-                        </div>
-                        <div class="card-body">
-                            <form action="device.php" method="post">
-                                <?php
-                                require('dataconnect.php'); // เชื่อมต่อกับฐานข้อมูล
-                                $selectedDeviceType = ""; // ประกาศตัวแปรและกำหนดค่าเริ่มต้นให้กับมัน
-                                if(isset($_POST["DeviceType"])) { // ตรวจสอบว่าแบบฟอร์มถูกส่งหรือไม่
-                                    $selectedDeviceType = $_POST["DeviceType"]; // กำหนดค่าของประเภทอุปกรณ์ที่เลือกให้กับตัวแปร
-                                }
-                                $query = "SELECT DISTINCT(DeviceType) FROM equipment";
-                                $result = mysqli_query($conn, $query);
-                            ?>
-                                <div class="form-group">
-                                    <label for="DeviceType">ประเภทอุปกรณ์:</label>
-                                    <select class="form-control" id="DeviceType" name="DeviceType" required>
-                                        <option value=""></option>
-                                        <?php while($row = mysqli_fetch_assoc($result)) { ?>
-                                        <option value="<?php echo $row['DeviceType']; ?>"
-                                            <?php if($selectedDeviceType==$row['DeviceType']) echo "selected"; ?>>
-                                            <?php echo $row['DeviceType']; ?>
-                                        </option>
-                                        <?php } ?>
-                                    </select>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-2">
-                                        <button type="submit" class="btn btn-primary btn-block">ค้นหา</button>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <a href="device.php" class="btn btn-secondary btn-block">แสดงอุปกรณ์ทั้งหมด</a>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div> -->
-                </div>
-            </div>
-        </div>
-    
-        <table id="repair-requests-table" class="table table-responsive mt-5">
-            <thead>
-                <tr>
-                    <th scope="col">รหัสอุปกรณ์</th>
-                    <!-- Device ID -->
-                    <th scope="col">ชื่ออุปกรณ์</th>
-                    <!-- Device Name -->
-                    <th scope="col">ประเภทอุปกรณ์</th>
-                    <!-- Device Type -->
-                    <th scope="col">รุ่นอุปกรณ์</th>
-                    <!-- Device Model -->
-                    <th scope="col">หมายเลขซีเรียล</th>
-                    <!-- Serial Number -->
-                    <th scope="col">ผู้ผลิต</th>
-                    <!-- Manufacturer -->
-                    <th scope="col">วันที่ซื้อ</th>
-                    <!-- Date of Purchase -->
-                    <th scope="col">วันหมดอายุการรับประกัน</th>
-                    <!-- Warranty Expiration Date -->
-                </tr>
-            </thead>
-            <tbody>
+    <main>
+        <div class="container-fluid">
+            <h1 class="mt-5 mb-3 text-center">Clock information</h1>
+            <p class="text-center">ข้อมูลนาฬิกาของผู้ใช้</p>
+            <div class="container">
                 <?php
-                
-                if ($conn->connect_error) {
-                    die("การเชื่อมต่อล้มเหลว: " . $conn->connect_error);
-                }
-                $sql = "SELECT DeviceID, DeviceName, DeviceType, DeviceModel, SerialNumber, Manufacturer, DateOfPurchase, WarrantyExpirationDate FROM equipment";
-                if($selectedDeviceType!=""){ // ตรวจสอบว่าตัวแปรมีค่าหรือไม่
-                    $sql.= " WHERE DeviceType='$selectedDeviceType'"; // เพิ่มเงื่อนไขในคำค้นหา
-                }
-                $result = $conn->query($sql);
-                if ($result->num_rows > 0) {
-                    while($row = $result->fetch_assoc()) {
-                        echo "<tr>
-                            <td>" . $row["DeviceID"]. "</td>
-                            <td>" . $row["DeviceName"]. "</td>
-                            <td>" . $row["DeviceType"]. "</td>
-                            <td>" . $row["DeviceModel"]. "</td>
-                            <td>" . $row["SerialNumber"]. "</td>
-                            <td>" . $row["Manufacturer"]. "</td>
-                            <td>" . $row["DateOfPurchase"]. "</td>
-                            <td>" . $row["WarrantyExpirationDate"]. "</td>
-                        </tr>";
+                    require('dataconnect.php'); // เชื่อมต่อกับฐานข้อมูล
+                    $selectedDeviceType = ""; // ประกาศตัวแปรและกำหนดค่าเริ่มต้นให้กับมัน
+                    if(isset($_POST["DeviceType"])) { // ตรวจสอบว่าแบบฟอร์มถูกส่งหรือไม่
+                        $selectedDeviceType = $_POST["DeviceType"]; // กำหนดค่าของประเภทอุปกรณ์ที่เลือกให้กับตัวแปร
                     }
-                } else {
-                    echo "ไม่พบข้อมูลสำหรับประเภทอุปกรณ์ที่เลือก";
-                }
-        
-                $totalDevicesSql = "SELECT COUNT(*) as total FROM equipment";
-                $totalDevicesResult = $conn->query($totalDevicesSql);
-                $totalDevices = $totalDevicesResult->fetch_assoc()["total"];
-        
-                $selectedDevicesSql = "SELECT COUNT(*) as selected FROM equipment WHERE DeviceType=?";
-                $stmt = $conn->prepare($selectedDevicesSql);
-                $stmt->bind_param("s", $selectedDeviceType);
-                $stmt->execute();
-                $selectedDevicesResult = $stmt->get_result();
-                $selectedDevices = $selectedDevicesResult->fetch_assoc()["selected"];
+                    $query = "SELECT DISTINCT(DeviceType) FROM equipment"; // สร้างคำสั่ง SQL เพื่อดึงข้อมูลประเภทอุปกรณ์ทั้งหมดจากตาราง equipment
+                    $result = mysqli_query($conn, $query); // ประมวลผลคำสั่ง SQL
                 ?>
-
-                <div class="summary mt-5">
-                    <?php if ($selectedDeviceType == "") { ?>
-                    <!-- <p>กำลังแสดงอุปกรณ์ทั้งหมด</p> -->
-                    <?php } else { ?>
-                    <p>กำลังแสดงอุปกรณ์จำนวน <?php echo $selectedDevices; ?> ประเภท <?php echo $selectedDeviceType; ?></p>
-                    <?php } ?>
-                    <!-- <p>อุปกรณ์ทั้งหมด: <?php echo $totalDevices; ?></p> -->
-                </div>
-                <?php
-                    $conn->close();
+                <?php 
+                    while($row = mysqli_fetch_assoc($result)) // วนลูปแสดงข้อมูลประเภทอุปกรณ์ทั้งหมด โดยใช้ฟังก์ชัน mysqli_fetch_assoc() 
                 ?>
+            </div>
 
-            </tbody>
-        </table>
-    </div>
+            <table id="repair-requests-table" class="table table-striped table-sm">
+                <thead>
+                    <tr>
+                        <th scope="col">รหัสอุปกรณ์</th>
+                        <!-- Device ID -->
+                        <th scope="col">ชื่ออุปกรณ์</th>
+                        <!-- Device Name -->
+                        <th scope="col">ประเภทอุปกรณ์</th>
+                        <!-- Device Type -->
+                        <th scope="col">รุ่นอุปกรณ์</th>
+                        <!-- Device Model -->
+                        <th scope="col">หมายเลขซีเรียล</th>
+                        <!-- Serial Number -->
+                        <th scope="col">ผู้ผลิต</th>
+                        <!-- Manufacturer -->
+                        <th scope="col">วันที่ซื้อ</th>
+                        <!-- Date of Purchase -->
+                        <th scope="col">รูปนาฬิกา</th>
+                        <!-- Picture -->
+                        <th scope="col">User</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                        if ($conn->connect_error) {
+                            die("การเชื่อมต่อล้มเหลว: " . $conn->connect_error);
+                        }   
+
+                        $sql = "SELECT DeviceID, DeviceName, DeviceType, DeviceModel, SerialNumber, Manufacturer, DateOfPurchase, Device_pic, users.Name AS UserName 
+                        FROM equipment 
+                        INNER JOIN users ON equipment.UserID = users.UserID"; // สร้างคำสั่ง SQL เพื่อดึงข้อมูลอุปกรณ์ทั้งหมดจากตาราง equipment และ users โดยให้แสดงผลข้อมูลจากตาราง users และตาราง equipment ที่มี UserID ในตาราง equipment ตรงกับ UserID ในตาราง users
+                        if($selectedDeviceType!=""){ // ตรวจสอบว่าตัวแปรมีค่าหรือไม่
+                            $sql.= " WHERE e.DeviceType='$selectedDeviceType'"; // เพิ่มเงื่อนไขในคำค้นหา
+                        }
+                        $result = $conn->query($sql);
+                        if ($result->num_rows > 0) {
+                            while($row = $result->fetch_assoc()) {
+                                echo "<tr>
+                                    <td>" . $row["DeviceID"]. "</td>
+                                    <td>" . $row["DeviceName"]. "</td>
+                                    <td>" . $row["DeviceType"]. "</td>
+                                    <td>" . $row["DeviceModel"]. "</td>
+                                    <td>" . $row["SerialNumber"]. "</td>
+                                    <td>" . $row["Manufacturer"]. "</td>
+                                    <td>" . $row["DateOfPurchase"]. "</td>
+                                    <td><img src='img/" . $row["Device_pic"] . "' class='zoomable-image' style='max-width: 100px; max-height: 100px;'></td>
+                                    <td>" . $row["UserName"]. "</td>
+                                </tr>";
+                            }
+                        } else {
+                            echo "ไม่พบข้อมูลสำหรับประเภทอุปกรณ์ที่เลือก";
+                        }
+                
+                        $totalDevicesSql = "SELECT COUNT(*) as total FROM equipment";
+                        $totalDevicesResult = $conn->query($totalDevicesSql);
+                        $totalDevices = $totalDevicesResult->fetch_assoc()["total"];
+                
+                        $selectedDevicesSql = "SELECT COUNT(*) as selected FROM equipment WHERE DeviceType=?";
+                        $stmt = $conn->prepare($selectedDevicesSql);
+                        $stmt->bind_param("s", $selectedDeviceType);
+                        $stmt->execute();
+                        $selectedDevicesResult = $stmt->get_result();
+                        $selectedDevices = $selectedDevicesResult->fetch_assoc()["selected"];
+                        
+                        $conn->close();
+                    ?>
+                </tbody>
+            </table>
+        </div>
+    </main>
+    <br>
+
+    <?php
+        include_once 'footerEnd.php';
+    ?>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.4.0-alpha1/dist/js/bootstrap.min.js"></script>
+    <script>
+    // เลือกภาพทั้งหมดที่มีคลาส zoomable-image
+    var images = document.querySelectorAll('.zoomable-image');
+
+    // เพิ่มการจัดฟังก์ชันเมื่อนำเม้าส์ไปชี้ที่รูปภาพ
+    images.forEach(function(image) {
+        image.addEventListener('mouseenter', function() {
+            image.style.transform = 'scale(1.8)';
+        });
+
+        image.addEventListener('mouseleave', function() {
+            image.style.transform = 'scale(1)';
+        });
+    });
+    </script>
 </body>
 
 </html>
