@@ -1,7 +1,12 @@
-# project_ssc
-graduation project
+## project_ssc
+>graduation project
+>
+
 โปรเจคจบการศึกษา สาขาวิชาเทคโนโลยีธุรกิจดิจิทัล
 คณะ วิทยาศาสตร์และเทคโนโลยี
 Southeast Bangkok University
 
 โปรเจด ระบบแจ้งซ่อมนาฬิกาบนเว็ปไซต์
+
+### Note
+> ปัจจุบันไม่ได้ใช้แล้ว ตัวทดลองหมดเวลา
