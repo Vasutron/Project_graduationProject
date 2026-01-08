@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="th" class="dark scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vasutron Luanglum - Profile</title>
+    <meta name="description" content="Profile Landing Page of Vasutron Luanglum - Application Support Developer">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            200: '#bae6fd',
+                            300: '#7dd3fc',
+                            400: '#38bdf8',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            800: '#075985',
+                            900: '#0c4a6e',
+                        },
+                    },
+                }
+            }
+        }
+    </script>
+    <style>
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100%);
+            }
+            to {
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideOutRight {
+            from {
+                transform: translateX(0);
+            }
+            to {
+                transform: translateX(100%);
+            }
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% {
+                box-shadow: 0 0 20px rgba(14, 165, 233, 0.4);
+            }
+            50% {
+                box-shadow: 0 0 40px rgba(14, 165, 233, 0.6);
+            }
+        }
+
+        .fade-in-up {
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        .slide-in-right {
+            animation: slideInRight 0.3s ease-out forwards;
+        }
+
+        .slide-out-right {
+            animation: slideOutRight 0.3s ease-in forwards;
+        }
+
+        .pulse-glow {
+            animation: pulse-glow 2s ease-in-out infinite;
+        }
+
+        .section-observer {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .section-observer.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .skill-icon {
+            transition: all 0.3s ease;
+        }
+
+        .skill-icon:hover {
+            transform: translateY(-8px) scale(1.1);
+        }
+
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #0ea5e9, #38bdf8, #7dd3fc);
+            z-index: 9999;
+            transition: width 0.1s ease-out;
+        }
+
+        .sidebar {
+            position: fixed;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 1000;
+        }
+
+        .nav-dot {
+            transition: all 0.3s ease;
+        }
+
+        .nav-dot.active {
+            background: #0ea5e9;
+            transform: scale(1.5);
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #0ea5e9 0%, #38bdf8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+</head>
+<body class="font-sans antialiased bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-300">
+    
+    <!-- Progress Bar -->
+    <div class="progress-bar" id="progressBar"></div>
+
+    <!-- Header -->
+    <header class="fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-800 transition-colors duration-300">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 rounded-full bg-gradient-to-br from-primary-500 to-primary-700 flex items-center justify-center text-white font-bold text-lg">
+                        V
+                    </div>
+                    <span class="text-xl font-bold gradient-text">Vasutron</span>
+                </div>
+                
+                <!-- Dark Mode Toggle -->
+                <button id="themeToggle" class="p-2 rounded-lg bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-all duration-300">
+                    <svg id="sunIcon" class="w-6 h-6 hidden dark:block text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                    </svg>
+                    <svg id="moonIcon" class="w-6 h-6 block dark:hidden text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Sidebar Navigation -->
+    <nav class="sidebar hidden md:block" id="sidebar">
+        <div class="bg-white dark:bg-gray-800 rounded-l-2xl shadow-2xl p-4 space-y-4 border-l-4 border-primary-500">
+            <a href="#home" class="nav-item block" data-section="home">
+                <div class="nav-dot w-3 h-3 rounded-full bg-gray-400 dark:bg-gray-600 hover:bg-primary-500 dark:hover:bg-primary-500"></div>
+            </a>
+            <a href="#about" class="nav-item block" data-section="about">
+                <div class="nav-dot w-3 h-3 rounded-full bg-gray-400 dark:bg-gray-600 hover:bg-primary-500 dark:hover:bg-primary-500"></div>
+            </a>
+            <a href="#skills" class="nav-item block" data-section="skills">
+                <div class="nav-dot w-3 h-3 rounded-full bg-gray-400 dark:bg-gray-600 hover:bg-primary-500 dark:hover:bg-primary-500"></div>
+            </a>
+            <a href="#education" class="nav-item block" data-section="education">
+                <div class="nav-dot w-3 h-3 rounded-full bg-gray-400 dark:bg-gray-600 hover:bg-primary-500 dark:hover:bg-primary-500"></div>
+            </a>
+            <a href="#experience" class="nav-item block" data-section="experience">
+                <div class="nav-dot w-3 h-3 rounded-full bg-gray-400 dark:bg-gray-600 hover:bg-primary-500 dark:hover:bg-primary-500"></div>
+            </a>
+            <a href="#contact" class="nav-item block" data-section="contact">
+                <div class="nav-dot w-3 h-3 rounded-full bg-gray-400 dark:bg-gray-600 hover:bg-primary-500 dark:hover:bg-primary-500"></div>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="min-h-screen flex items-center justify-center pt-20 px-6 bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 transition-colors duration-300">
+        <div class="container mx-auto">
+            <div class="flex flex-col items-center text-center space-y-8">
+                <div class="relative fade-in-up">
+                    <div class="absolute inset-0 bg-gradient-to-br from-primary-500 to-primary-700 rounded-full blur-2xl opacity-30 pulse-glow"></div>
+                    <img src="profile.png" alt="Vasutron Luanglum" class="relative w-48 h-48 md:w-64 md:h-64 rounded-full object-cover border-4 border-white dark:border-gray-700 shadow-2xl">
+                </div>
+                
+                <div class="space-y-4 fade-in-up" style="animation-delay: 0.2s;">
+                    <h1 class="text-5xl md:text-7xl font-bold">
+                        <span class="gradient-text">วสุทร เลิงลำ</span>
+                    </h1>
+                    <h2 class="text-3xl md:text-4xl font-semibold text-gray-700 dark:text-gray-300">
+                        Vasutron Luanglum
+                    </h2>
+                    <p class="text-xl md:text-2xl text-gray-600 dark:text-gray-400">
+                        T'or (ต่อ)
+                    </p>
+                    <div class="flex items-center justify-center space-x-2 text-gray-600 dark:text-gray-400">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                        </svg>
+                        <span>Samutprakarn, Thailand</span>
+                    </div>
+                </div>
+
+                <div class="flex flex-wrap gap-4 justify-center fade-in-up" style="animation-delay: 0.4s;">
+                    <a href="#contact" class="px-8 py-3 bg-gradient-to-r from-primary-500 to-primary-700 text-white rounded-full font-semibold hover:shadow-2xl hover:scale-105 transition-all duration-300">
+                        Get In Touch
+                    </a>
+                    <a href="#about" class="px-8 py-3 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 rounded-full font-semibold border-2 border-gray-300 dark:border-gray-700 hover:border-primary-500 dark:hover:border-primary-500 hover:shadow-xl transition-all duration-300">
+                        Learn More
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="min-h-screen flex items-center py-20 px-6 bg-white dark:bg-gray-800 transition-colors duration-300">
+        <div class="container mx-auto max-w-4xl">
+            <div class="section-observer space-y-8">
+                <h2 class="text-4xl md:text-5xl font-bold text-center gradient-text mb-12">About Me</h2>
+                
+                <div class="card-hover bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 rounded-2xl p-8 md:p-12 shadow-xl border border-gray-200 dark:border-gray-700">
+                    <p class="text-lg md:text-xl leading-relaxed text-gray-700 dark:text-gray-300">
+                        สวัสดีครับ! ผม<span class="font-semibold gradient-text">วสุทร เลิงลำ</span> หรือเรียกว่า <span class="font-semibold">ต่อ</span> เป็น Application Support Developer ที่มีความหลงใหลในการพัฒนาซอฟต์แวร์และการแก้ไขปัญหาทางเทคนิค ปัจจุบันทำงานที่ Greenline Synergy Co., Ltd. มีประสบการณ์ในการทำงานด้าน IT และการสนับสนุนระบบแอปพลิเคชัน พร้อมทั้งมีพื้นฐานความรู้ด้านการพัฒนาเว็บแอปพลิเคชันและการจัดการฐานข้อมูล
+                    </p>
+                    <p class="text-lg md:text-xl leading-relaxed text-gray-700 dark:text-gray-300 mt-6">
+                        ผมมีความสนใจในเทคโนโลยีใหม่ ๆ และชอบที่จะเรียนรู้สิ่งใหม่อยู่เสมอ โดยเฉพาะในด้าน Web Development, Database Management และ Cloud Technologies นอกจากนี้ยังมีประสบการณ์ในการทำงานเป็นทีมและการประสานงานกับหลายฝ่ายงาน
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="min-h-screen flex items-center py-20 px-6 bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 transition-colors duration-300">
+        <div class="container mx-auto max-w-6xl">
+            <div class="section-observer space-y-12">
+                <h2 class="text-4xl md:text-5xl font-bold text-center gradient-text mb-12">Skills & Technologies</h2>
+                
+                <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
+                    <!-- Programming Languages -->
+                    <div class="skill-icon card-hover bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg text-center border border-gray-200 dark:border-gray-700">
+                        <div class="text-4xl mb-3">🐘</div>
+                        <p class="font-semibold text-sm">PHP</p>
+                    </div>
+                    <div class="skill-icon card-hover bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg text-center border border-gray-200 dark:border-gray-700">
+                        <div class="text-4xl mb-3">🔺</div>
+                        <p class="font-semibold text-sm">Laravel</p>
+                    </div>
+                    <div class="skill-icon card-hover bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg text-center border border-gray-200 dark:border-gray-700">
+                        <div class="text-4xl mb-3">🐍</div>
+                        <p class="font-semibold text-sm">Python</p>
+                    </div>
+                    <div class="skill-icon card-hover bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg text-center border border-gray-200 dark:border-gray-700">
+                        <div class="text-4xl mb-3">⚙️</div>
+                        <p class="font-semibold text-sm">C++</p>
+                    </div>
+                    <div class="skill-icon card-hover bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg text-center border border-gray-200 dark:border-gray-700">
+                        <div class="text-4xl mb-3">📜</div>
+                        <p class="font-semibold text-sm">JavaScript</p>
+                    </div>
+                    <div class="skill-icon card-hover bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg text-center border border-gray-200 dark:border-gray-700">
+                        <div class="text-4xl mb-3">📘</div>
+                        <p class="font-semibold text-sm">TypeScript</p>
+                    </div>
+
+                    <!-- Frontend -->
+                    <div class="skill-icon card-hover bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg text-center border border-gray-200 dark:border-gray-700">
+                        <div class="text-4xl mb-3">🌐</div>
+                        <p class="font-semibold text-sm">HTML</p>
+                    </div>
+                    <div class="skill-icon card-hover bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg text-center border border-gray-200 dark:border-gray-700">
+                        <div class="text-4xl mb-3">🎨</div>
+                        <p class="font-semibold text-sm">CSS</p>
+                    </div>
+                    <div class="skill-icon card-hover bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg text-center border border-gray-200 dark:border-gray-700">
+                        <div class="text-4xl mb-3">🅱️</div>
+                        <p class="font-semibold text-sm">Bootstrap 5</p>
+                    </div>
+                    <div class="skill-icon card-hover bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg text-center border border-gray-200 dark:border-gray-700">
+                        <div class="text-4xl mb-3">💨</div>
+                        <p class="font-semibold text-sm">Tailwind CSS</p>
+                    </div>
+                    <div class="skill-icon card-hover bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg text-center border border-gray-200 dark:border-gray-700">
+                        <div class="text-4xl mb-3">🅰️</div>
+                        <p class="font-semibold text-sm">Angular</p>
+                    </div>
+
+                    <!-- Database & Tools -->
+                    <div class="skill-icon card-hover bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg text-center border border-gray-200 dark:border-gray-700">
+                        <div class="text-4xl mb-3">🗄️</div>
+                        <p class="font-semibold text-sm">SQL</p>
+                    </div>
+                    <div class="skill-icon card-hover bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg text-center border border-gray-200 dark:border-gray-700">
+                        <div class="text-4xl mb-3">🐙</div>
+                        <p class="font-semibold text-sm">GitHub</p>
+                    </div>
+                    <div class="skill-icon card-hover bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg text-center border border-gray-200 dark:border-gray-700">
+                        <div class="text-4xl mb-3">🤖</div>
+                        <p class="font-semibold text-sm">ChatGPT</p>
+                    </div>
+
+                    <!-- Microsoft Office -->
+                    <div class="skill-icon card-hover bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg text-center border border-gray-200 dark:border-gray-700">
+                        <div class="text-4xl mb-3">📊</div>
+                        <p class="font-semibold text-sm">Excel</p>
+                    </div>
+                    <div class="skill-icon card-hover bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg text-center border border-gray-200 dark:border-gray-700">
+                        <div class="text-4xl mb-3">📝</div>
+                        <p class="font-semibold text-sm">Word</p>
+                    </div>
+                    <div class="skill-icon card-hover bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg text-center border border-gray-200 dark:border-gray-700">
+                        <div class="text-4xl mb-3">📧</div>
+                        <p class="font-semibold text-sm">Outlook</p>
+                    </div>
+                    <div class="skill-icon card-hover bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg text-center border border-gray-200 dark:border-gray-700">
+                        <div class="text-4xl mb-3">📽️</div>
+                        <p class="font-semibold text-sm">PowerPoint</p>
+                    </div>
+                    <div class="skill-icon card-hover bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg text-center border border-gray-200 dark:border-gray-700">
+                        <div class="text-4xl mb-3">📐</div>
+                        <p class="font-semibold text-sm">Visio</p>
+                    </div>
+                    <div class="skill-icon card-hover bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg text-center border border-gray-200 dark:border-gray-700">
+                        <div class="text-4xl mb-3">🔗</div>
+                        <p class="font-semibold text-sm">SharePoint</p>
+                    </div>
+
+                    <!-- Adobe Suite -->
+                    <div class="skill-icon card-hover bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg text-center border border-gray-200 dark:border-gray-700">
+                        <div class="text-4xl mb-3">🎭</div>
+                        <p class="font-semibold text-sm">Illustrator</p>
+                    </div>
+                    <div class="skill-icon card-hover bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg text-center border border-gray-200 dark:border-gray-700">
+                        <div class="text-4xl mb-3">🖼️</div>
+                        <p class="font-semibold text-sm">Photoshop</p>
+                    </div>
+                    <div class="skill-icon card-hover bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg text-center border border-gray-200 dark:border-gray-700">
+                        <div class="text-4xl mb-3">🎬</div>
+                        <p class="font-semibold text-sm">Premiere Pro</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Education Section -->
+    <section id="education" class="min-h-screen flex items-center py-20 px-6 bg-white dark:bg-gray-800 transition-colors duration-300">
+        <div class="container mx-auto max-w-4xl">
+            <div class="section-observer space-y-12">
+                <h2 class="text-4xl md:text-5xl font-bold text-center gradient-text mb-12">Education</h2>
+                
+                <div class="card-hover bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 rounded-2xl p-8 md:p-12 shadow-xl border-l-4 border-primary-500">
+                    <div class="flex items-start space-x-4">
+                        <div class="flex-shrink-0">
+                            <div class="w-16 h-16 bg-gradient-to-br from-primary-500 to-primary-700 rounded-full flex items-center justify-center text-white text-2xl font-bold">
+                                🎓
+                            </div>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-2">ปริญญาตรี</h3>
+                            <p class="text-xl font-semibold text-primary-600 dark:text-primary-400 mb-3">Southeast Bangkok University</p>
+                            <p class="text-lg text-gray-700 dark:text-gray-300 mb-2">คณะเทคโนโลยีดิจิทัลและนวัตกรรม</p>
+                            <p class="text-lg text-gray-700 dark:text-gray-300 mb-3">สาขาวิชาเทคโนโลยีดิจิทัล</p>
+                            <div class="inline-block px-4 py-2 bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 rounded-full text-sm font-semibold">
+                                ปี พ.ศ. 2566
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section id="experience" class="min-h-screen flex items-center py-20 px-6 bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 transition-colors duration-300">
+        <div class="container mx-auto max-w-5xl">
+            <div class="section-observer space-y-12">
+                <h2 class="text-4xl md:text-5xl font-bold text-center gradient-text mb-12">Work Experience</h2>
+                
+                <div class="relative">
+                    <!-- Timeline Line -->
+                    <div class="absolute left-8 top-0 bottom-0 w-0.5 bg-gradient-to-b from-primary-500 to-primary-700 hidden md:block"></div>
+                    
+                    <div class="space-y-8">
+                        <!-- Experience 1 -->
+                        <div class="card-hover relative bg-white dark:bg-gray-800 rounded-2xl p-6 md:p-8 shadow-xl md:ml-20 border border-gray-200 dark:border-gray-700">
+                            <div class="absolute -left-12 top-8 w-8 h-8 bg-primary-500 rounded-full border-4 border-white dark:border-gray-900 hidden md:block"></div>
+                            <div class="flex flex-col md:flex-row md:items-start md:justify-between mb-4">
+                                <div>
+                                    <h3 class="text-2xl font-bold text-gray-900 dark:text-gray-100">Application Support</h3>
+                                    <p class="text-xl text-primary-600 dark:text-primary-400 font-semibold">Greenline Synergy Co., Ltd</p>
+                                </div>
+                                <div class="mt-2 md:mt-0">
+                                    <span class="inline-block px-4 py-2 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 rounded-full text-sm font-semibold">
+                                        มิถุนายน 2568 - ปัจจุบัน
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Experience 2 -->
+                        <div class="card-hover relative bg-white dark:bg-gray-800 rounded-2xl p-6 md:p-8 shadow-xl md:ml-20 border border-gray-200 dark:border-gray-700">
+                            <div class="absolute -left-12 top-8 w-8 h-8 bg-primary-500 rounded-full border-4 border-white dark:border-gray-900 hidden md:block"></div>
+                            <div class="flex flex-col md:flex-row md:items-start md:justify-between mb-4">
+                                <div>
+                                    <h3 class="text-2xl font-bold text-gray-900 dark:text-gray-100">Application Support</h3>
+                                    <p class="text-xl text-primary-600 dark:text-primary-400 font-semibold">Betime Solutions Co., Ltd</p>
+                                </div>
+                                <div class="mt-2 md:mt-0">
+                                    <span class="inline-block px-4 py-2 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded-full text-sm font-semibold">
+                                        สิงหาคม 2566 - พฤษภาคม 2568
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Experience 3 -->
+                        <div class="card-hover relative bg-white dark:bg-gray-800 rounded-2xl p-6 md:p-8 shadow-xl md:ml-20 border border-gray-200 dark:border-gray-700">
+                            <div class="absolute -left-12 top-8 w-8 h-8 bg-primary-500 rounded-full border-4 border-white dark:border-gray-900 hidden md:block"></div>
+                            <div class="flex flex-col md:flex-row md:items-start md:justify-between mb-4">
+                                <div>
+                                    <h3 class="text-2xl font-bold text-gray-900 dark:text-gray-100">เจ้าหน้าที่บริหาร ประสานงานการตลาด</h3>
+                                    <p class="text-xl text-primary-600 dark:text-primary-400 font-semibold">บริษัท บางจากกรีนเนท จำกัด</p>
+                                </div>
+                                <div class="mt-2 md:mt-0">
+                                    <span class="inline-block px-4 py-2 bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 rounded-full text-sm font-semibold">
+                                        กรกฎาคม 2557 - สิงหาคม 2566
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Experience 4 -->
+                        <div class="card-hover relative bg-white dark:bg-gray-800 rounded-2xl p-6 md:p-8 shadow-xl md:ml-20 border border-gray-200 dark:border-gray-700">
+                            <div class="absolute -left-12 top-8 w-8 h-8 bg-primary-500 rounded-full border-4 border-white dark:border-gray-900 hidden md:block"></div>
+                            <div class="flex flex-col md:flex-row md:items-start md:justify-between mb-4">
+                                <div>
+                                    <h3 class="text-2xl font-bold text-gray-900 dark:text-gray-100">บาริสต้า</h3>
+                                    <p class="text-xl text-primary-600 dark:text-primary-400 font-semibold">ร้านกาแฟอินทนิน (ในเครือ บริษัท บางจากกรีนเนท จำกัด)</p>
+                                </div>
+                                <div class="mt-2 md:mt-0">
+                                    <span class="inline-block px-4 py-2 bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-300 rounded-full text-sm font-semibold">
+                                        กรกฎาคม 2556 - มีนาคม 2557
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="min-h-screen flex items-center py-20 px-6 bg-white dark:bg-gray-800 transition-colors duration-300">
+        <div class="container mx-auto max-w-4xl">
+            <div class="section-observer space-y-12">
+                <h2 class="text-4xl md:text-5xl font-bold text-center gradient-text mb-12">Get In Touch</h2>
+                
+                <div class="grid md:grid-cols-2 gap-6">
+                    <!-- Email -->
+                    <a href="mailto:Popart.vl@gmail.com" class="card-hover bg-gradient-to-br from-primary-50 to-primary-100 dark:from-primary-900/20 dark:to-primary-800/20 rounded-2xl p-8 shadow-xl border border-primary-200 dark:border-primary-800 group">
+                        <div class="flex items-center space-x-4">
+                            <div class="flex-shrink-0">
+                                <div class="w-16 h-16 bg-gradient-to-br from-primary-500 to-primary-700 rounded-full flex items-center justify-center text-white text-2xl group-hover:scale-110 transition-transform duration-300">
+                                    📧
+                                </div>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="text-xl font-bold text-gray-900 dark:text-gray-100 mb-1">Email</h3>
+                                <p class="text-primary-600 dark:text-primary-400 font-semibold break-all">Popart.vl@gmail.com</p>
+                            </div>
+                        </div>
+                    </a>
+
+                    <!-- GitHub -->
+                    <a href="https://github.com/Vasutron" target="_blank" rel="noopener noreferrer" class="card-hover bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 rounded-2xl p-8 shadow-xl border border-gray-200 dark:border-gray-700 group">
+                        <div class="flex items-center space-x-4">
+                            <div class="flex-shrink-0">
+                                <div class="w-16 h-16 bg-gradient-to-br from-gray-700 to-gray-900 dark:from-gray-600 dark:to-gray-800 rounded-full flex items-center justify-center text-white text-2xl group-hover:scale-110 transition-transform duration-300">
+                                    🐙
+                                </div>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="text-xl font-bold text-gray-900 dark:text-gray-100 mb-1">GitHub</h3>
+                                <p class="text-gray-600 dark:text-gray-400 font-semibold">github.com/Vasutron</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Footer -->
+                <div class="text-center pt-12 border-t border-gray-200 dark:border-gray-700">
+                    <p class="text-gray-600 dark:text-gray-400">
+                        © 2026 Vasutron Luanglum. All rights reserved.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Theme Toggle
+        const themeToggle = document.getElementById('themeToggle');
+        const html = document.documentElement;
+        
+        // Load theme from localStorage
+        const currentTheme = localStorage.getItem('theme') || 'dark';
+        html.classList.toggle('dark', currentTheme === 'dark');
+
+        themeToggle.addEventListener('click', () => {
+            html.classList.toggle('dark');
+            const newTheme = html.classList.contains('dark') ? 'dark' : 'light';
+            localStorage.setItem('theme', newTheme);
+        });
+
+        // Progress Bar
+        const progressBar = document.getElementById('progressBar');
+        
+        function updateProgressBar() {
+            const windowHeight = window.innerHeight;
+            const documentHeight = document.documentElement.scrollHeight;
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            const scrollPercent = (scrollTop / (documentHeight - windowHeight)) * 100;
+            progressBar.style.width = scrollPercent + '%';
+        }
+
+        window.addEventListener('scroll', updateProgressBar);
+
+        // Sidebar Auto Show/Hide
+        const sidebar = document.getElementById('sidebar');
+        let scrollTimeout;
+        let lastScrollTop = 0;
+
+        window.addEventListener('scroll', () => {
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            
+            if (scrollTop > 300) {
+                sidebar.classList.remove('slide-out-right');
+                sidebar.classList.add('slide-in-right');
+                sidebar.style.display = 'block';
+                
+                clearTimeout(scrollTimeout);
+                scrollTimeout = setTimeout(() => {
+                    sidebar.classList.remove('slide-in-right');
+                    sidebar.classList.add('slide-out-right');
+                    setTimeout(() => {
+                        sidebar.style.display = 'none';
+                    }, 300);
+                }, 3000);
+            } else {
+                sidebar.style.display = 'none';
+            }
+            
+            lastScrollTop = scrollTop;
+        });
+
+        // Sidebar Navigation Active State
+        const sections = document.querySelectorAll('section');
+        const navDots = document.querySelectorAll('.nav-dot');
+
+        function updateActiveNav() {
+            let current = '';
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (pageYOffset >= sectionTop - 200) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navDots.forEach(dot => {
+                dot.classList.remove('active');
+                const link = dot.parentElement;
+                if (link.getAttribute('href') === '#' + current) {
+                    dot.classList.add('active');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', updateActiveNav);
+
+        // Intersection Observer for Animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.section-observer').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Smooth Scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Initialize
+        updateProgressBar();
+        updateActiveNav();
+    </script>
+</body>
+</html>
