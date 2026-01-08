@@ -332,7 +332,7 @@
 
                     <!-- Profile Modal Card -->
                     <div
-                        class="profile-modal absolute top-full mt-4 left-1/2 transform -translate-x-1/2 w-80 bg-white dark:bg-gray-800 rounded-2xl shadow-2xl p-6 border border-gray-200 dark:border-gray-700">
+                        class="profile-modal absolute top-0 left-full ml-8 w-80 bg-white dark:bg-gray-800 rounded-2xl shadow-2xl p-6 border border-gray-200 dark:border-gray-700">
                         <div class="space-y-3">
                             <div class="flex items-center space-x-3 pb-3 border-b border-gray-200 dark:border-gray-700">
                                 <div
@@ -891,7 +891,7 @@
 
         // Work Duration Counter
         function updateWorkDuration() {
-            const startDate = new Date('2024-06-02T00:00:00+07:00');
+            const startDate = new Date('2025-06-02T00:00:00+07:00'); // June 2, 2025 (2568)
             const now = new Date();
 
             let diff = now - startDate;
@@ -913,9 +913,18 @@
 
             const seconds = Math.floor(diff / 1000);
 
+            const durationText = `${years}y ${months}m ${days}d ${hours}h ${minutes}m ${seconds}s`;
+
+            // Update modal element
             const durationElement = document.getElementById('workDuration');
             if (durationElement) {
-                durationElement.textContent = `${years}y ${months}m ${days}d ${hours}h ${minutes}m ${seconds}s`;
+                durationElement.textContent = durationText;
+            }
+
+            // Update experience section element
+            const durationExperienceElement = document.getElementById('workDurationExperience');
+            if (durationExperienceElement) {
+                durationExperienceElement.textContent = durationText;
             }
         }
 
